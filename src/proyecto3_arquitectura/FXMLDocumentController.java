@@ -32,7 +32,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextArea numeros;
 
-    private int numeroLinea=1;
+    private int numeroLinea = 1;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         consola.setStyle("-fx-font-size: 17");
@@ -47,7 +48,7 @@ public class FXMLDocumentController implements Initializable {
             if (e.getCode() == e.getCode().ENTER) {
                 System.out.println("Salto de linea");
                 numeroLinea++;
-                numeros.setText(numeros.getText()+"\n"+numeroLinea);
+                numeros.setText(numeros.getText() + "\n" + numeroLinea);
                 String last[] = consola.getText().split("\n");
                 Matcher mat = p.matcher(last[last.length - 1]);
                 boolean cadenaValida = mat.matches();
@@ -63,9 +64,8 @@ public class FXMLDocumentController implements Initializable {
                 for (int i = 0; i < label.length; i++) {
                     if (tokensX[0].equals(label[i])) {
                         System.out.println("La etiqueta es " + label[i]);
-                        if(label[i].equals("Mov")){
-                        
-                        
+                        if (label[i].equals("Mov")) {
+
                         }
                     }
 

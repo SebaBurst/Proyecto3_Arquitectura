@@ -11,4 +11,7 @@ package Logica;
  */
 public class Etiqueta {
     
+    
+    String OPC ="";
+    
 }

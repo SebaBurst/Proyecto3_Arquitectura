@@ -5,8 +5,10 @@
  */
 package proyecto3_arquitectura;
 
+import Logica.Registro;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +29,8 @@ public class FXMLDocumentController implements Initializable {
     String label[] = {"add", "mov", "sum", "mul", "div", "cmp", "mod", "and", "or", "not", "lsr"
         + "asr", "lsl" + "nop", "ld", "sd", "beq", "bgt", "b", "call", "ret"};
 
+    public ArrayList<Registro> registros = new ArrayList();
+
     @FXML
     private TextArea consola;
     @FXML
@@ -34,8 +38,18 @@ public class FXMLDocumentController implements Initializable {
 
     private int numeroLinea = 1;
 
+    public void inicializarRegistros() {
+        for (int i = 0; i < 15; i++) {
+            Registro r = new Registro();
+            r.setNombreRegistro("r" + i);
+            registros.add(r);
+        }
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        inicializarRegistros();
         consola.setStyle("-fx-font-size: 17");
         numeros.setStyle("-fx-font-size: 17");
         numeros.setText(Integer.toString(numeroLinea));
@@ -64,9 +78,20 @@ public class FXMLDocumentController implements Initializable {
                 for (int i = 0; i < label.length; i++) {
                     if (tokensX[0].equals(label[i])) {
                         System.out.println("La etiqueta es " + label[i]);
-                        if (label[i].equals("Mov")) {
+                        System.out.println("Validar Registros!!!!1");
+                        String comandos = tokensX[2];
+                        String[] tokens2 = comandos.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
 
+                        ArrayList<String> com = new ArrayList();
+                        for (String token : tokens2) {
+                            if (token.equals(",")) {
+                            } else {
+                                com.add(token);
+                            }
+
+                            System.out.println(token);
                         }
+
                     }
 
                 }

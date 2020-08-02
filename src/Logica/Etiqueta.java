@@ -13,5 +13,24 @@ public class Etiqueta {
     
     
     String OPC ="";
+    String nombre="";
+
+    public String getOPC() {
+        return OPC;
+    }
+
+    public void setOPC(String OPC) {
+        this.OPC = OPC;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
     
 }

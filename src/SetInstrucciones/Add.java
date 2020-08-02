@@ -18,15 +18,17 @@ public class Add extends Instruccion {
         int inmd = 0;
         int rg2 = 0;
         int rg1 = this.getR1().getValor();
-        if (this.getR2() == null) {
+        if (this.getR2() != null) {
             rg2 = this.getR2().getValor();
             int resultado = rg1 + rg2;
+            System.out.println("Resultado: "+resultado);
             this.rd.setValor(resultado);
 
         } else {
             inmd = this.getInmediato();
             int resultado = rg1 + inmd;
             this.rd.setValor(resultado);
+            System.out.println("Resultado I: "+resultado);
 
         }
     }

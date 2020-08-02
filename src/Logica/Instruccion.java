@@ -11,6 +11,9 @@ package Logica;
  */
 public abstract class Instruccion {
 
+    
+    
+    public String instruccion;
     public Etiqueta etiqueta;
     public Registro rd;
     public Registro r2;
@@ -20,6 +23,15 @@ public abstract class Instruccion {
     public Etiqueta getEtiqueta() {
         return etiqueta;
     }
+
+    public String getInstruccion() {
+        return instruccion;
+    }
+
+    public void setInstruccion(String instruccion) {
+        this.instruccion = instruccion;
+    }
+    
 
     public void setEtiqueta(Etiqueta etiqueta) {
         this.etiqueta = etiqueta;

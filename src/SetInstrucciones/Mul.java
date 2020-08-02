@@ -18,7 +18,7 @@ public class Mul extends Instruccion {
         int inmd = 0;
         int rg2 = 0;
         int rg1 = this.getR1().getValor();
-        if (this.getR2() == null) {
+        if (this.getR2() != null) {
             rg2 = this.getR2().getValor();
             int resultado = rg1 * rg2;
             this.rd.setValor(resultado);

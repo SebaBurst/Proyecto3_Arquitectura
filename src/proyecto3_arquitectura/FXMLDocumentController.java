@@ -9,9 +9,18 @@ import Logica.Etiqueta;
 import Logica.Instruccion;
 import Logica.Registro;
 import SetInstrucciones.Add;
+import SetInstrucciones.And;
+import SetInstrucciones.Asr;
+import SetInstrucciones.Cmp;
+import SetInstrucciones.Div;
+import SetInstrucciones.Lsl;
+import SetInstrucciones.Lsr;
 import SetInstrucciones.Mod;
 import SetInstrucciones.Mov;
 import SetInstrucciones.Mul;
+import SetInstrucciones.Nop;
+import SetInstrucciones.Not;
+import SetInstrucciones.Or;
 import SetInstrucciones.Sub;
 import java.awt.event.KeyEvent;
 import java.net.URL;
@@ -69,6 +78,7 @@ public class FXMLDocumentController implements Initializable {
             return new Mul();
 
         } else if (nombre.equals("div")) {
+            return new Div();
 
         } else if (nombre.equals("mov")) {
             return new Mov();
@@ -77,21 +87,28 @@ public class FXMLDocumentController implements Initializable {
             return new Mod();
 
         } else if (nombre.equals("cmp")) {
+            return new Cmp();
 
         } else if (nombre.equals("and")) {
+            return new And();
 
         } else if (nombre.equals("or")) {
+            return new Or();
 
         } else if (nombre.equals("not")) {
+            return new Not();
 
         } else if (nombre.equals("lsl")) {
+            return new Lsl();
 
         } else if (nombre.equals("lsr")) {
+            return new Lsr();
 
         } else if (nombre.equals("asr")) {
+            return new Asr();
 
         } else if (nombre.equals("nop")) {
-
+            return new Nop();
         } else if (nombre.equals("ld")) {
 
         } else if (nombre.equals("st")) {
@@ -224,6 +241,12 @@ public class FXMLDocumentController implements Initializable {
             r.setNombreRegistro("r" + i);
             registros.add(r);
         }
+        Registro flagE = new Registro();
+        flagE.setNombreRegistro("e");
+        Registro flagGT = new Registro();
+        flagGT.setNombreRegistro("gt");
+        registros.add(flagE);
+        registros.add(flagGT);
 
         colregistros.setCellValueFactory(
                 new PropertyValueFactory<Registro, String>("nombreRegistro"));
@@ -385,20 +408,18 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void actualizarValors(Instruccion set) {
-        System.out.println(set.getInstruccion());
 
-        System.out.println("Valor Inmediato: " + set.getInmediato());
-        if (set.getR1() != null) {
-            System.out.println("R1: " + set.getR1().getValor());
+        if (set instanceof Cmp) {
+            System.out.println("Set rd: " + set.getRd().getNombreRegistro());
+            ((Cmp) set).setMayor(registros.get(16));
+            ((Cmp) set).setIgual(registros.get(15));
 
         }
-
         set.ejecutar();
 
         for (int i = 0; i < registros.size(); i++) {
             if (set.rd.getNombreRegistro().equals(registros.get(i).getNombreRegistro())) {
                 registros.get(i).setValor(set.rd.getValor());
-                System.out.println("Valor : " + set.rd.getValor());
             }
         }
         tablaRG.refresh();

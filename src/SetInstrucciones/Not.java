@@ -11,24 +11,24 @@ import Logica.Instruccion;
  *
  * @author sebar
  */
-public class Add extends Instruccion {
+public class Not extends Instruccion {
 
     @Override
     public void ejecutar() {
         int inmd = 0;
         int rg2 = 0;
-        int rg1 = this.getR1().getValor();
-        if (this.getR2() != null) {
-            rg2 = this.getR2().getValor();
-            int resultado = rg1 + rg2;
+        if (this.getR1() != null) {
+            rg2 = this.getR1().getValor();
+            int resultado = ~rg2;
             this.rd.setValor(resultado);
 
         } else {
             inmd = this.getInmediato();
-            int resultado = rg1 + inmd;
+            int resultado = ~inmd;
             this.rd.setValor(resultado);
 
         }
+
     }
 
 }

@@ -40,6 +40,6 @@
         </columns>
       </TableView>
       <Rectangle arcWidth="5.0" fill="DODGERBLUE" height="109.0" layoutX="-2.0" layoutY="-86.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1071.0" />
-      <Button fx:id="ejecutar" layoutX="21.0" layoutY="53.0" mnemonicParsing="false" text="Ejecutar" />
+      <Button fx:id="ejecutar" layoutX="92.0" layoutY="52.0" mnemonicParsing="false" onAction="#ejecutarCode" text="Ejecutar" />
     </children>
 </AnchorPane>

@@ -30,7 +30,6 @@ public class Cmp extends Instruccion {
         } else {
             inmd = this.getInmediato();
             resultado = rg1 - inmd;
-            this.rd.setValor(resultado);
 
         }
 

@@ -7,10 +7,14 @@ package proyecto3_arquitectura;
 
 import Logica.Etiqueta;
 import Logica.Instruccion;
+import Logica.Offset;
 import Logica.Registro;
 import SetInstrucciones.Add;
 import SetInstrucciones.And;
 import SetInstrucciones.Asr;
+import SetInstrucciones.B;
+import SetInstrucciones.Beq;
+import SetInstrucciones.Bgt;
 import SetInstrucciones.Cmp;
 import SetInstrucciones.Div;
 import SetInstrucciones.Lsl;
@@ -52,12 +56,15 @@ public class FXMLDocumentController implements Initializable {
     String label[] = {"add", "mov", "sum", "mul", "div", "cmp", "mod", "and", "or", "not", "lsr"
         + "asr", "lsl" + "nop", "ld", "sd", "beq", "bgt", "b", "call", "ret"};
 
+    private Offset ofActual = new Offset();
+    private boolean ofActivo = false;
     @FXML
     private TextArea consola;
     @FXML
     private TextArea numeros;
     private int numeroLinea = 1;
-    public ArrayList<Instruccion> instrucciones = new ArrayList();
+    private int instruccionesValidas = 0;
+    private ArrayList<Instruccion> instrucciones = new ArrayList();
     @FXML
     private TableView<Registro> tablaRG;
     @FXML
@@ -118,6 +125,7 @@ public class FXMLDocumentController implements Initializable {
         } else if (nombre.equals("bgt")) {
 
         } else if (nombre.equals("b")) {
+            return new B();
 
         } else if (nombre.equals("call")) {
 
@@ -355,56 +363,117 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb
     ) {
+
+        // Arreglar codigo , Se ve HORRIBLLE, (INSERTE CANCION DEL REY LEON 2)
         inicializarRegistros();
         consola.setStyle("-fx-font-size: 17");
         numeros.setStyle("-fx-font-size: 17");
         numeros.setText(Integer.toString(numeroLinea));
-        Pattern p = Pattern.compile(""
-                + "([a-z]{3}|[a-z]{2})\\s[r]{1}([0-9]{2}|[0-9]),(([r]{1}([0-9]{2}|[0-9]),"
-                + "(([r]{1}([0-9]{2}|[0-9]))|[0-9]{2}))|(([r]{1}([0-9]{2}"
-                + "|[0-9]))|([0-9]{2})|[0-9]{2}\\[[r]{1}([0-9]{2})\\]))");
-
         consola.setOnKeyReleased(e -> {
             if (e.getCode() == e.getCode().ENTER) {
-                System.out.println("Salto de linea");
-                numeroLinea++;
-                numeros.setText(numeros.getText() + "\n" + numeroLinea);
-                String last[] = consola.getText().split("\n");
-                Matcher mat = p.matcher(last[last.length - 1]);
-                boolean cadenaValida = mat.matches();
-                if (cadenaValida == false) {
-                    System.out.println("Cadena no valida");
-                }
-                System.out.println(last[last.length - 1]);
-                String[] tokensX = last[last.length - 1].replaceAll("\\s+", "+").split("(?<=[-+*/()_])|(?=[-+*/()_])");
-                System.out.println("Se imprimen todos los tokens de la lista.");
-                for (String token : tokensX) {
-                    System.out.println(token);
-                }
-
-                Etiqueta etiqueta = new Etiqueta();
-                boolean valida = crearEtiqueta(etiqueta, tokensX[0]);
-                if (valida == true) {
-                    String[] tokens = tokensX[2].replaceAll("\\s+", "").split("(?<=[,])|(?=[,])");
-                    Instruccion set = tipoEtiqueta(etiqueta.getNombre());
-
-                    boolean instruccionValida = crearInstruccion(tokens, set, etiqueta);
-
-                    if (instruccionValida) {
-                        System.out.println("Linea de codigo completamente valida");
-                        set.setInstruccion(last[last.length - 1]);
-                        actualizarValors(set);
-
-                    }
-
-                } else {
-                    System.out.println("Error en la linea ");
-
-                }
 
             }
 
         });
+    }
+
+    public void validarInstruccion(String instruccion) {
+        Pattern p = Pattern.compile(""
+                + "([a-z]{3}|[a-z]{2})\\s[r]{1}([0-9]{2}|[0-9]),(([r]{1}([0-9]{2}|[0-9]),"
+                + "(([r]{1}([0-9]{2}|[0-9]))|[0-9]{2}))|(([r]{1}([0-9]{2}"
+                + "|[0-9]))|([0-9]{2})|[0-9]{2}\\[[r]{1}([0-9]{2})\\]))");
+        numeroLinea++;
+        numeros.setText(numeros.getText() + "\n" + numeroLinea);
+        Matcher mat = p.matcher(instruccion);
+        boolean cadenaValida = mat.matches();
+        if (cadenaValida == false) {
+            System.out.println("Cadena no valida");
+            Pattern offsetFormat = Pattern.compile("\\.[a-z]+\\:");
+            Matcher m = offsetFormat.matcher(instruccion);
+            boolean valido = m.matches();
+
+            if (valido) {
+                System.out.println("Es una Funcioncilla");
+                Instruccion of = new Offset();
+                of.setInstruccion(instruccion);
+                ofActual = (Offset) of;
+                instrucciones.add(of);
+                instruccionesValidas++;
+            } else {
+                Pattern b = Pattern.compile("b\\.[a-z]+");
+                Matcher mb = b.matcher(instruccion);
+                boolean validob = mb.matches();
+                B salto = new B();
+                if (validob) {
+                    String remove = instruccion.substring(1);
+                    System.out.println("Remove: " + remove);
+                    salto.setOffset(remove);
+                    instrucciones.add(salto);
+                } else {
+                    b = Pattern.compile("beq\\.[a-z]+");
+                    mb = b.matcher(instruccion);
+                    boolean validobe = mb.matches();
+                    Beq saltoe = new Beq();
+                    saltoe.setR1(registros.get(15));
+                    saltoe.setR2(registros.get(16));
+
+                    if (validobe) {
+                        String remove = instruccion.substring(3);
+                        System.out.println("Remove: " + remove);
+                        saltoe.setOffset(remove);
+                        instrucciones.add(saltoe);
+                    } else {
+                        b = Pattern.compile("bgt\\.[a-z]+");
+                        mb = b.matcher(instruccion);
+                        validobe = mb.matches();
+                        Bgt jump = new Bgt();
+                        jump.setR1(registros.get(15));
+                        jump.setR2(registros.get(16));
+
+                        if (validobe) {
+                            String remove = instruccion.substring(3);
+                            System.out.println("Remove: " + remove);
+                            jump.setOffset(remove);
+                            instrucciones.add(jump);
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+        System.out.println(instruccion);
+        String[] tokensX = instruccion.replaceAll("\\s+", "+").split("(?<=[-+*/()_])|(?=[-+*/()_])");
+        System.out.println("Se imprimen todos los tokens de la lista.");
+        for (String token : tokensX) {
+            System.out.println(token);
+        }
+
+        Etiqueta etiqueta = new Etiqueta();
+        boolean valida = crearEtiqueta(etiqueta, tokensX[0]);
+        if (valida == true) {
+            String[] tokens = tokensX[2].replaceAll("\\s+", "").split("(?<=[,])|(?=[,])");
+            Instruccion set = tipoEtiqueta(etiqueta.getNombre());
+
+            boolean instruccionValida = crearInstruccion(tokens, set, etiqueta);
+
+            if (instruccionValida) {
+                System.out.println("Linea de codigo completamente valida");
+                set.setInstruccion(instruccion);
+                instrucciones.add(set);
+                instruccionesValidas++;
+
+            } else {
+                System.out.println("Error en la siguiente linea : " + instruccion);
+
+            }
+
+        } else {
+            System.out.println("Error en la linea ");
+
+        }
+
     }
 
     public void actualizarValors(Instruccion set) {
@@ -416,13 +485,84 @@ public class FXMLDocumentController implements Initializable {
 
         }
         set.ejecutar();
-
-        for (int i = 0; i < registros.size(); i++) {
-            if (set.rd.getNombreRegistro().equals(registros.get(i).getNombreRegistro())) {
-                registros.get(i).setValor(set.rd.getValor());
+        if (set instanceof Offset == false) {
+            for (int i = 0; i < registros.size(); i++) {
+                if (set.rd.getNombreRegistro().equals(registros.get(i).getNombreRegistro())) {
+                    registros.get(i).setValor(set.rd.getValor());
+                }
             }
         }
         tablaRG.refresh();
 
+    }
+
+    @FXML
+    private void ejecutarCode(ActionEvent event) {
+        instrucciones.clear();
+        String last[] = consola.getText().split("\n");
+        ArrayList<String> ins = new ArrayList();
+
+        //Remover lineas vacias;
+        for (int i = 0; i < last.length; i++) {
+            if (!last[i].equals("")) {
+                ins.add(last[i]);
+
+            }
+        }
+        for (int i = 0; i < ins.size(); i++) {
+            if (ins.get(i).equals(i)) {
+                for (int j = i; j < ins.size(); j++) {
+                    if (!ins.get(i).equals("ret")) {
+
+                    }
+                }
+
+            }
+
+            validarInstruccion(ins.get(i));
+
+            System.out.println("Linea " + i + ": " + ins.get(i));
+        }
+
+        if (instrucciones.size() == ins.size()) {
+            System.out.println("TODAS LAS INSTRUCCIONES VALIDAS");
+            for (int i = 0; i < instrucciones.size(); i++) {
+                Instruccion aux = instrucciones.get(i);
+                if (aux instanceof B) {
+                    if (((B) aux).isUsado() == false) {
+                        System.out.println("Entre al Salto");
+                        i = ((B) aux).salto(instrucciones);
+                        System.out.println("El indice es igual a : " + i);
+                        ((B) aux).setUsado(true);
+                    }
+                } else if (aux instanceof Beq) {
+                    if (((Beq) aux).isUsado() == false) {
+                        System.out.println("Entre al Salto");
+                        int valor = ((Beq) aux).salto(instrucciones);
+                        if (valor != -1) {
+                            i = valor;
+
+                        }
+                        System.out.println("El indice es igual a : " + i);
+                        ((Beq) aux).setUsado(true);
+                    }
+
+                } else if (aux instanceof Bgt) {
+                    if (((Bgt) aux).isUsado() == false) {
+                        System.out.println("Entre al Salto");
+                        int valor = ((Bgt) aux).salto(instrucciones);
+                        if (valor != -1) {
+                            i = valor;
+
+                        }
+                        System.out.println("El indice es igual a : " + i);
+                        ((Bgt) aux).setUsado(true);
+                    }
+                } else {
+                    System.out.println("Entre a activar funcion de valores");
+                    actualizarValors(instrucciones.get(i));
+                }
+            }
+        }
     }
 }

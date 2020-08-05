@@ -8,3 +8,56 @@ and open the template in the editor.
     Author     : sebar
 */
 
+.text-area {
+    -fx-font-family: Monospace;
+    -fx-highlight-fill: #00ff00;
+    -fx-highlight-text-fill: #000000;
+    -fx-text-fill: white;
+    -fx-font-size: 17;
+    -fx-background-radius:0px;
+}
+
+.text-area .content{
+    -fx-background-color: #343f56;
+    -fx-borde-color: #343f56;
+    -fx-background-radius:0px;
+
+
+}
+
+.cerrar{
+    -fx-background-color: transparent;
+    -fx-min-height: 15px;
+    -fx-background-radius:50px;
+    -fx-background-size: 15px 15px;
+    -fx-min-width: 15px;
+    -fx-graphic: url('/Recursos/cerrar.png');  
+}
+
+.min{
+    -fx-background-color: transparent;
+    -fx-min-height: 20px;
+    -fx-background-radius:20px;
+    -fx-background-size: 20px 30px;
+    -fx-min-width: 20px;
+    -fx-graphic: url('/Recursos/Minimizar.png');  
+}
+
+
+.cerrar:hover{
+    -fx-background-color: transparent;
+    -fx-min-height: 15px;
+    -fx-background-radius:50px;
+    -fx-background-size: 15px 15px;
+    -fx-min-width: 15px;
+    -fx-graphic: url('/Recursos/cerrarHover.png');  
+}
+
+.min:hover{
+    -fx-background-color: transparent;
+    -fx-min-height: 20px;
+    -fx-background-radius:20px;
+    -fx-background-size: 20px 30px;
+    -fx-min-width: 20px;
+    -fx-graphic: url('/Recursos/minHover.png');  
+}

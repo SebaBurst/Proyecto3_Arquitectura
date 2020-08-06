@@ -5,10 +5,38 @@
  */
 package SetInstrucciones;
 
+import Logica.Instruccion;
+
 /**
  *
  * @author sebar
  */
-public class Call {
-    
+public class Call extends Instruccion {
+
+    private String offset = "";
+    private boolean usado = false;
+
+    public String getOffset() {
+        return offset;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
+
+    public boolean isUsado() {
+        return usado;
+    }
+
+    public void setUsado(boolean usado) {
+        this.usado = usado;
+    }
+
+    @Override
+    public void ejecutar() {
+        System.out.println("Ring Ring..... Llamando");
+
+
+    }
+
 }

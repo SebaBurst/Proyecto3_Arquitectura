@@ -15,6 +15,8 @@ public class Offset extends Instruccion {
 
     
     private ArrayList<Instruccion> bloque = new ArrayList();
+    private boolean retorno = false;
+    
     
     @Override
     public void ejecutar() {
@@ -26,6 +28,14 @@ public class Offset extends Instruccion {
 
     public void addBloque(Instruccion id) {
         bloque.add(id);
+    }
+
+    public boolean isRetorno() {
+        return retorno;
+    }
+
+    public void setRetorno(boolean retorno) {
+        this.retorno = retorno;
     }
     
     

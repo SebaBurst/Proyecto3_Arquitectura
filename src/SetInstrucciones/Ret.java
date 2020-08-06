@@ -5,10 +5,17 @@
  */
 package SetInstrucciones;
 
+import Logica.Instruccion;
+
 /**
  *
  * @author sebar
  */
-public class Ret {
+public class Ret extends Instruccion {
+
+    @Override
+    public void ejecutar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

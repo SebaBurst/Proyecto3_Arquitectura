@@ -19,6 +19,7 @@ import SetInstrucciones.Mul;
 import SetInstrucciones.Nop;
 import SetInstrucciones.Not;
 import SetInstrucciones.Or;
+import SetInstrucciones.Ret;
 import SetInstrucciones.Sub;
 
 /**
@@ -70,7 +71,7 @@ public class CrearInstruccion {
             case "call":
                 break;
             case "ret":
-                break;
+                return new Ret();
             default:
                 break;
         }

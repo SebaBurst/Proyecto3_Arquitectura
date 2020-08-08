@@ -18,6 +18,7 @@ import SetInstrucciones.Bgt;
 import SetInstrucciones.Call;
 import SetInstrucciones.Cmp;
 import SetInstrucciones.Mov;
+import SetInstrucciones.Nop;
 import SetInstrucciones.Ret;
 import java.net.URL;
 import java.util.ArrayList;
@@ -106,11 +107,6 @@ public class FXMLDocumentController implements Initializable {
 
             }
         }
-
-        for (int i = 0; i < reg.size(); i++) {
-            System.out.println("R; " + reg.get(i));
-        }
-
         if (reg.size() == 2 || reg.size() == 3) {
             int inmediato = 0;
             int contadorInmediatos = 0;
@@ -189,8 +185,10 @@ public class FXMLDocumentController implements Initializable {
     ) {
         Font.loadFont(FXMLDocumentController.class.getResource("/Recursos/MonospaceBold.ttf").toExternalForm(), 20);
 
-        Text text2 = new Text(" little bold blue text");
-        text2.setFill(Color.BLUE);
+        String text2 = "                          Digimon Universe:  Appli Monsters";
+        String d = text2.replace("\t", "");
+        System.out.println(text2);
+        System.out.println(d);
 
         // Arreglar codigo , Se ve HORRIBLLE, (INSERTE CANCION DEL REY LEON 2)
         inicializarRegistros();
@@ -229,8 +227,8 @@ public class FXMLDocumentController implements Initializable {
         numeroLinea++;
         numeros.setText(numeros.getText() + "\n" + numeroLinea);
         Matcher mat = p.matcher(instruccion);
+        instruccion = instruccion.replace("\t", "");
         boolean cadenaValida = mat.matches();
-        System.out.println("Validez: " + cadenaValida);
         if (cadenaValida == false) {
 
             if (instruccion.equals("ret")) {
@@ -238,13 +236,11 @@ public class FXMLDocumentController implements Initializable {
                 instrucciones.add(retorno);
 
             }
-            System.out.println("Cadena no valida");
             Pattern offsetFormat = Pattern.compile("\\.[a-z]+\\:");
             Matcher m = offsetFormat.matcher(instruccion);
             boolean valido = m.matches();
 
             if (valido) {
-                System.out.println("Es una Funcioncilla");
                 Instruccion of = new Offset();
                 of.setInstruccion(instruccion);
                 instrucciones.add(of);
@@ -255,7 +251,6 @@ public class FXMLDocumentController implements Initializable {
                 B salto = new B();
                 if (validob) {
                     String remove = instruccion.substring(1);
-                    System.out.println("Remove: " + remove);
                     salto.setOffset(remove);
                     instrucciones.add(salto);
                 } else {
@@ -268,7 +263,6 @@ public class FXMLDocumentController implements Initializable {
 
                     if (validobe) {
                         String remove = instruccion.substring(3);
-                        System.out.println("Remove: " + remove);
                         saltoe.setOffset(remove);
                         instrucciones.add(saltoe);
                     } else {
@@ -281,7 +275,6 @@ public class FXMLDocumentController implements Initializable {
 
                         if (validobe) {
                             String remove = instruccion.substring(3);
-                            System.out.println("Remove: " + remove);
                             jump.setOffset(remove);
                             instrucciones.add(jump);
                         } else {
@@ -292,7 +285,6 @@ public class FXMLDocumentController implements Initializable {
 
                             if (validobe) {
                                 String remove = instruccion.substring(4);
-                                System.out.println("Remove: " + remove);
                                 llamada.setOffset(remove);
                                 instrucciones.add(llamada);
                             }
@@ -305,13 +297,7 @@ public class FXMLDocumentController implements Initializable {
 
             }
         }
-        System.out.println(instruccion);
         String[] tokensX = instruccion.replaceAll("\\s+", "+").split("(?<=[-+*/()_])|(?=[-+*/()_])");
-        System.out.println("Se imprimen todos los tokens de la lista.");
-        for (String token : tokensX) {
-            System.out.println(token);
-        }
-
         Etiqueta etiqueta = new Etiqueta();
         boolean valida = CrearEtiqueta.crear(etiqueta, tokensX[0]);
         if (valida == true && (!etiqueta.getNombre().equals("ret"))) {
@@ -345,10 +331,13 @@ public class FXMLDocumentController implements Initializable {
 
         }
         set.ejecutar();
-        if (set instanceof Offset == false) {
-            for (int i = 0; i < registros.size(); i++) {
-                if (set.rd.getNombreRegistro().equals(registros.get(i).getNombreRegistro())) {
-                    registros.get(i).setValor(set.rd.getValor());
+        System.out.println("Set: " + set.getInstruccion());
+        if (!(set.getInstruccion().equals("nop"))) {
+            if (set instanceof Offset == false) {
+                for (int i = 0; i < registros.size(); i++) {
+                    if (set.rd.getNombreRegistro().equals(registros.get(i).getNombreRegistro())) {
+                        registros.get(i).setValor(set.rd.getValor());
+                    }
                 }
             }
         }
@@ -370,8 +359,6 @@ public class FXMLDocumentController implements Initializable {
             }
         }
 
-        Pattern offsetFormat = Pattern.compile("\\.[a-z]+\\:");
-
         for (int i = 0; i < ins.size(); i++) {
             if (ins.get(i).equals(i)) {
                 for (int j = i; j < ins.size(); j++) {
@@ -382,7 +369,6 @@ public class FXMLDocumentController implements Initializable {
             }
 
             validarInstruccion(ins.get(i));
-            System.out.println("Linea " + i + ": " + ins.get(i));
         }
 
         //Ciclo para crear la funciones de y asi llamarlas con el call.offset
@@ -400,12 +386,10 @@ public class FXMLDocumentController implements Initializable {
                                 ((Offset) aux).addBloque(instrucciones.get(j));
                                 ((Offset) aux).setRetorno(true);
                                 j = instrucciones.size();
-                                System.out.println("Soy Retorno");
 
                             } else {
                                 ((Offset) aux).addBloque(instrucciones.get(j));
                                 ((Offset) aux).setRetorno(false);
-                                System.out.println("Agregando....");
 
                             }
 
@@ -420,6 +404,76 @@ public class FXMLDocumentController implements Initializable {
         }
 
         if (instrucciones.size() == ins.size()) {
+
+            ArrayList<Instruccion> lecturas = new ArrayList();
+            ArrayList<Instruccion> escritura = new ArrayList();
+            ArrayList<Instruccion> auxiliar = instrucciones;
+            for (int i = 0; i < instrucciones.size(); i++) {
+                boolean raw = false;
+                Instruccion aux = instrucciones.get(i);
+                for (int j = 0; j < escritura.size(); j++) {
+                    if (escritura.get(j) == aux) {
+                        raw = true;
+                    }
+                }
+                if (!raw) {
+                    Registro r = aux.getRd();
+                    for (int j = 0; j < auxiliar.size(); j++) {
+                        Instruccion a = instrucciones.get(j);
+                        if (a.getR1() == r || a.getR2() == r) {
+                            escritura.add(a);
+
+                        }
+                    }
+                }
+
+            }
+
+            //Eliminar las instrucciones que estan en 
+            for (int i = 0; i < escritura.size(); i++) {
+                auxiliar.remove(escritura.get(i));
+            }
+
+            //Fusionar
+            for (int i = 0; i < auxiliar.size(); i++) {
+                lecturas.add(auxiliar.get(i));
+
+            }
+
+            //AgregarNop;
+            Nop nop = new Nop();
+            nop.setInstruccion("nop");
+            int size = auxiliar.size() - 1;
+            int indice = 0;
+            switch (size) {
+                case 0:
+                    indice = 3;
+                    break;
+                case 1:
+                    indice = 2;
+                    break;
+                case 2:
+                    indice = 1;
+                    break;
+                default:
+                    break;
+            }
+            for (int i = 0; i < indice; i++) {
+                lecturas.add(nop);
+            }
+            System.out.println("");
+            for (int i = 0; i < escritura.size(); i++) {
+                lecturas.add(escritura.get(i));
+            }
+
+            consola.clear();
+            for (int i = 0; i < lecturas.size(); i++) {
+                Instruccion aux = lecturas.get(i);
+                consola.setText(consola.getText() + aux.getInstruccion() + "\n");
+            }
+
+            instrucciones.clear();
+            instrucciones = lecturas;
 
             for (int i = 0; i < instrucciones.size(); i++) {
                 Instruccion aux = instrucciones.get(i);

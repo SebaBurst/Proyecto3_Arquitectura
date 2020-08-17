@@ -12,18 +12,36 @@ and open the template in the editor.
     -fx-font-family: Monospace;
     -fx-highlight-fill: #00ff00;
     -fx-highlight-text-fill: #000000;
-    -fx-text-fill: white;
+    -fx-text-fill: #b8bfcf;
     -fx-font-size: 17;
+    -fx-background-color: #2c303b;
+    -fx-border-color: #2c303b;    
     -fx-background-radius:0px;
 }
 
 .text-area .content{
-    -fx-background-color: #343f56;
-    -fx-borde-color: #343f56;
+    -fx-background-color: #2c303b;
+    -fx-border-color: #2c303b;
     -fx-background-radius:0px;
 
 
 }
+
+.text-areaN{
+    -fx-background-color: #5b6378;
+    -fx-border-color: #5b6378;
+
+
+}
+
+.text-areaN .content{
+    -fx-background-color: #5b6378;
+    -fx-border-color: #5b6378;
+    -fx-background-radius:0px;
+
+
+}
+
 
 .cerrar{
     -fx-background-color: transparent;
@@ -59,5 +77,100 @@ and open the template in the editor.
     -fx-background-radius:20px;
     -fx-background-size: 20px 30px;
     -fx-min-width: 20px;
-    -fx-graphic: url('/Recursos/minHover.png');  
+    -fx-graphic: url('/Recursos/minHover.png'); 
+}
+
+
+
+
+.save{
+    -fx-background-color: transparent;
+
+    -fx-min-height: 30px;
+    -fx-background-radius:10px;
+    -fx-background-size: 30px 30px;
+    -fx-min-width: 30px;
+    -fx-graphic: url('/Recursos/save.png');  
+}
+
+.save:hover{
+    -fx-background-color:#5b6378;
+
+    -fx-min-height: 30px;
+    -fx-background-radius:10px;
+    -fx-background-size: 30px 30px;
+    -fx-min-width: 30px;
+    -fx-graphic: url('/Recursos/save.png');  
+}
+
+
+
+
+
+
+.new{
+    -fx-background-color: transparent;
+
+    -fx-min-height: 30px;
+    -fx-background-radius:10px;
+    -fx-background-size: 30px 30px;
+    -fx-min-width: 30px;
+    -fx-graphic: url('/Recursos/new.png');  
+}
+
+.new:hover{
+    -fx-background-color:#5b6378;
+
+    -fx-min-height: 30px;
+    -fx-background-radius:10px;
+    -fx-background-size: 30px 30px;
+    -fx-min-width: 30px;
+    -fx-graphic: url('/Recursos/new.png');  
+}
+
+
+
+
+
+.play{
+    -fx-background-color: transparent;
+
+    -fx-min-height: 30px;
+    -fx-background-radius:10px;
+    -fx-background-size: 30px 30px;
+    -fx-min-width: 30px;
+    -fx-graphic: url('/Recursos/play.png');  
+}
+
+.play:hover{
+    -fx-background-color:#5b6378;
+
+    -fx-min-height: 30px;
+    -fx-background-radius:10px;
+    -fx-background-size: 30px 30px;
+    -fx-min-width: 30px;
+    -fx-graphic: url('/Recursos/play.png');  
+}
+
+
+
+
+.load{
+    -fx-background-color: transparent;
+
+    -fx-min-height: 30px;
+    -fx-background-radius:10px;
+    -fx-background-size: 30px 30px;
+    -fx-min-width: 30px;
+    -fx-graphic: url('/Recursos/load.png');  
+}
+
+.load:hover{
+    -fx-background-color:#5b6378;
+
+    -fx-min-height: 30px;
+    -fx-background-radius:10px;
+    -fx-background-size: 30px 30px;
+    -fx-min-width: 30px;
+    -fx-graphic: url('/Recursos/load.png');  
 }

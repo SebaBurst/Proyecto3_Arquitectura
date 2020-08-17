@@ -10,10 +10,9 @@ package Logica;
  * @author sebar
  */
 public class Etiqueta {
-    
-    
-    String OPC ="";
-    String nombre="";
+
+    private String OPC = "";
+    private String nombre = "";
 
     public String getOPC() {
         return OPC;
@@ -30,7 +29,5 @@ public class Etiqueta {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
-    
+
 }

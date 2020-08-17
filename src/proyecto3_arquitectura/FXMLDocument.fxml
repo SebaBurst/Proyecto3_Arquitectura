@@ -1,28 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="661.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto3_arquitectura.FXMLDocumentController">
     <children>
-      <TextArea fx:id="numeros" editable="false" layoutX="251.0" layoutY="88.0" prefHeight="616.0" prefWidth="55.0" style="-fx-background-color: #343f56; -fx-border-color: #343f56;" stylesheets="@../Recursos/estilos.css" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2b2e3d" height="673.0" layoutX="-1.0" layoutY="31.0" stroke="TRANSPARENT" strokeType="INSIDE" width="259.0" />
-      <Rectangle fill="#2b2e3d" height="56.0" layoutX="-4.0" layoutY="33.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1074.0" />
-      <TableView fx:id="tablaRG" layoutX="9.0" layoutY="90.0" prefHeight="598.0" prefWidth="238.0">
-        <columns>
-          <TableColumn fx:id="colregistros" prefWidth="36.33331298828125" text="C1" />
-            <TableColumn fx:id="columnValores" prefWidth="75.0" text="Column X" />
-        </columns>
-      </TableView>
-      <Rectangle fill="#2b2e3d" height="120.0" layoutX="-2.0" layoutY="-86.0" onMouseDragged="#arrastar" onMousePressed="#presionar" stroke="TRANSPARENT" strokeType="INSIDE" width="1072.0" />
-      <Button fx:id="ejecutar" layoutX="265.0" layoutY="39.0" mnemonicParsing="false" onAction="#ejecutarCode" prefHeight="43.0" prefWidth="56.0" text="Ejecutar" />
+      <TextArea fx:id="numeros" editable="false" layoutX="251.0" layoutY="136.0" prefHeight="568.0" prefWidth="55.0" style="-fx-background-color: #5b6378; -fx-border-color: #5b6378;" styleClass="text-areaN" stylesheets="@../Recursos/estilos.css" />
+      <TabPane layoutY="59.0" prefHeight="645.0" prefWidth="251.0" style="-fx-background-color: transparent;" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Registros">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="618.0" prefWidth="250.0">
+                     <children>
+                        <Rectangle fill="#293144" height="646.0" stroke="TRANSPARENT" strokeType="INSIDE" width="259.0" />
+                        <TableView fx:id="tablaRG" layoutX="11.0" layoutY="17.0" prefHeight="589.0" prefWidth="228.0">
+                          <columns>
+                            <TableColumn fx:id="colregistros" editable="false" prefWidth="69.0" sortable="false" text="Registros" />
+                              <TableColumn fx:id="columnValores" editable="false" prefWidth="158.0" sortable="false" text="Valores" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Set de Instrucciones">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="571.0" prefWidth="251.0">
+                     <children>
+                        <Rectangle fill="#293144" height="627.0" stroke="TRANSPARENT" strokeType="INSIDE" width="251.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Rectangle fill="#293144" height="56.0" layoutX="249.0" layoutY="33.0" stroke="TRANSPARENT" strokeType="INSIDE" width="821.0" />
+      <Rectangle fill="#212936" height="120.0" layoutX="-2.0" layoutY="-86.0" onMouseDragged="#arrastar" onMousePressed="#presionar" stroke="TRANSPARENT" strokeType="INSIDE" width="1072.0" />
+      <Button fx:id="ejecutar" layoutX="460.0" layoutY="40.0" mnemonicParsing="false" onAction="#ejecutarCode" prefHeight="43.0" prefWidth="56.0" styleClass="play" stylesheets="@../Recursos/estilos.css" text="Ejecutar" />
       <Button layoutX="1033.0" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#cerrar" styleClass="cerrar" stylesheets="@../Recursos/estilos.css" />
       <Button layoutX="1009.0" layoutY="3.0" mnemonicParsing="false" onMouseClicked="#minimizar" styleClass="min" stylesheets="@../Recursos/estilos.css" />
-      <TextArea fx:id="consola" layoutX="304.0" layoutY="89.0" prefHeight="615.0" prefWidth="766.0" style="-fx-background-color: #343f56; -fx-border-color: #343f56;" stylesheets="@../Recursos/estilos.css" />
-      <Button layoutX="329.0" layoutY="39.0" mnemonicParsing="false" onAction="#guardar" prefHeight="43.0" prefWidth="56.0" text="Save :)" />
+      <TextArea fx:id="consola" layoutX="304.0" layoutY="136.0" prefHeight="568.0" prefWidth="766.0" stylesheets="@../Recursos/estilos.css" />
+      <Button layoutX="393.0" layoutY="40.0" mnemonicParsing="false" onAction="#guardar" prefHeight="43.0" prefWidth="56.0" styleClass="save" stylesheets="@../Recursos/estilos.css" text="Save :)" />
+      <ChoiceBox layoutX="876.0" layoutY="42.0" prefHeight="35.0" prefWidth="181.0" />
+      <Button fx:id="nuevo" layoutX="261.0" layoutY="40.0" mnemonicParsing="false" onAction="#nuevoCodigo" prefHeight="43.0" prefWidth="56.0" styleClass="new" stylesheets="@../Recursos/estilos.css" text="Button" />
+      <Button layoutX="327.0" layoutY="40.0" mnemonicParsing="false" onAction="#cargarCodigo" prefHeight="43.0" prefWidth="56.0" styleClass="load" stylesheets="@../Recursos/estilos.css" text="Button" />
+      <Rectangle fill="#5b6378" height="49.0" layoutX="251.0" layoutY="87.0" stroke="#3d4b61" strokeType="INSIDE" width="210.0" />
+      <Rectangle fill="#5b6378" height="49.0" layoutX="460.0" layoutY="87.0" stroke="#3d4b61" strokeType="INSIDE" width="610.0" />
+      <ImageView fitHeight="30.0" fitWidth="24.0" layoutX="260.0" layoutY="96.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Recursos/file.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="nombre" layoutX="298.0" layoutY="99.0" prefHeight="24.0" prefWidth="156.0" text="Label" textFill="#c3c3c3">
+         <font>
+            <Font name="Candara Bold" size="17.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

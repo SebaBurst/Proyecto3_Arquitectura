@@ -94,6 +94,7 @@ public class Funciones {
     public ArrayList<Instruccion> errorOrden(ArrayList<Instruccion> instrucciones) {
         for (int i = 0; i < instrucciones.size(); i++) {
             Instruccion aux = instrucciones.get(i);
+            System.out.println("In: " + aux);
             System.out.println("Conflictos de la Instruccion: " + aux.getInstruccion());
             if ((i + 3) < instrucciones.size()) {
                 for (int j = 1; j < 4; j++) {
@@ -111,6 +112,12 @@ public class Funciones {
 
     }
 
+    /**
+     * M
+     *
+     * @param instrucciones
+     * @return
+     */
     public ArrayList<Instruccion> insertarNop(ArrayList<Instruccion> instrucciones) {
         for (int i = 0; i < instrucciones.size(); i++) {
             Instruccion ax = instrucciones.get(i);
@@ -123,6 +130,51 @@ public class Funciones {
             }
         }
         return null;
+    }
+
+    public ArrayList<Instruccion> delaySlots(ArrayList<Instruccion> instrucciones, Instruccion jump) {
+        for (int i = 0; i < instrucciones.size(); i++) {
+            Instruccion ax = instrucciones.get(i);
+            if (ax == jump) {
+                Instruccion bx;
+                Instruccion cx;
+                if ((i - 2) >= 0) {
+
+                    System.out.println("Menos Two");
+                    bx = instrucciones.get(i - 2);
+                    cx = instrucciones.get(i - 1);
+
+                    System.out.println("BX: " + bx);
+                    System.out.println("Cx: " + cx);
+                    System.out.println("Remove-2: " + instrucciones.get(i - 2));
+                    System.out.println("Remove-1: " + instrucciones.get(i - 1));
+                    instrucciones.add(i + 1, bx);
+                    instrucciones.add(i + 2, cx);
+                    instrucciones.remove(i - 1);
+                    instrucciones.remove(i - 2);
+
+                    return instrucciones;
+
+                    //
+                } else if ((i - 1) >= 0) {
+                    cx = instrucciones.get(i - 1);
+                    Nop nop = new Nop();
+                    nop.setInstruccion("nop");
+                    Etiqueta e = new Etiqueta();
+                    e.setNombre("nop");
+                    nop.setEtiqueta(e);
+                    instrucciones.add(i + 1, nop);
+                    instrucciones.add((i + 2), cx);
+                    instrucciones.remove(i - 1);
+                    return instrucciones;
+
+                }
+
+            }
+        }
+
+        return null;
+
     }
 
     /**
@@ -139,33 +191,44 @@ public class Funciones {
         // Recorremos la lista de instrucciones
         for (int i = 0; i < instrucciones.size(); i++) {
             Instruccion aux = instrucciones.get(i); // Guardamos en una variable auxiliar la instruccion actual
-            boolean raw = noError(aux); // Llamamos a la funcion no error, que nos evitara la funciones
-
+            System.out.println("In: " + aux);
+            boolean raw = true; // Llamamos a la funcion no error, que nos evitara la funciones
             // Recorremos el arreglo de superior para ver si que la funcion no se agrege a si misma
             for (int j = 0; j < inferior.size(); j++) {
                 if (inferior.get(j) == aux) {
                     raw = false;
                 }
             }
-            if (raw == true) {
+            if (raw == true && aux instanceof Offset == false) {
+               
+                System.out.println("jdabskjdbcas");
                 Registro r = aux.getRd();
+               
                 for (int j = 0; j < instrucciones.size(); j++) {
                     Instruccion a = instrucciones.get(j);
-                    if (a.getR1() == r || a.getR2() == r) {
-                        inferior.add(a);
+                    if (aux != a && a instanceof Offset == false) {
+                        System.out.println("Hay conflicto entre:" + aux + "y" + a);
+                        if (a.getR1() == r || a.getR2() == r) {
+                            System.out.println("Agregando: " + a);
+                            inferior.add(a);
+                        }
                     }
                 }
+
             }
 
         }
 
         // Ahora eliminamos las instrucciones que tenemos en superior
-        for (int i = 0; i < inferior.size(); i++) {
+        for (int i = 0;
+                i < inferior.size();
+                i++) {
             instrucciones.remove(inferior.get(i));
         }
 
         //Ahora agregamos los nop, solamente, si las instrucciones inferiores son mayores a 0
-        if (inferior.size() > 0) {
+        if (inferior.size()
+                > 0) {
             //Creamos el objeto nop;
 
             Nop nop = new Nop();
@@ -196,14 +259,27 @@ public class Funciones {
 
         }
 
-        for (int i = 0; i < inferior.size(); i++) {
+        for (int i = 0;
+                i < inferior.size();
+                i++) {
             instrucciones.add(inferior.get(i));
         }
 
         //Ahora llamamos a la errorOrden, que se encarga de verificar y arreglar los errores que pudan
         //surgir ; espero :(
-        if (inferior.size() > 0) {
-            instrucciones = errorOrden(instrucciones);
+        if (inferior.size()
+                > 0) {
+            //instrucciones = errorOrden(instrucciones);
+        }
+
+        int size = instrucciones.size();
+
+        if (size >= 2) {
+
+            if (instrucciones.get(size - 2) == instrucciones.get(size - 1)) {
+                instrucciones.remove(size - 1);
+
+            }
         }
         return instrucciones;
 
